@@ -1,17 +1,14 @@
 import { useState } from 'react';
 
-function Sort() {
-  const sortList = ['популярности', 'цене', 'алфавиту'];
-
+function Sort({ sortList, selectedSort, onSelectSort }) {
   const [show, setShow] = useState(false);
-  const [sortID, setSortID] = useState(0);
 
   const onClickShow = () => {
     setShow((prev) => !prev);
   };
 
-  const onClickSort = (index) => {
-    setSortID(index);
+  const onClickSort = (sort) => {
+    onSelectSort(sort);
     setShow(false);
   };
 
@@ -30,17 +27,17 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => onClickShow()}>{sortList[sortID]}</span>
+        <span onClick={() => onClickShow()}>{selectedSort.name}</span>
       </div>
       {show && (
         <div className="sort__popup">
           <ul>
-            {sortList.map((item, index) => (
+            {sortList.map((item) => (
               <li
-                className={sortID === index ? 'active' : ''}
-                onClick={() => onClickSort(index)}
-                key={index}>
-                {item}
+                className={selectedSort.id === item.id ? 'active' : ''}
+                onClick={() => onClickSort(item)}
+                key={item.id}>
+                {item.name}
               </li>
             ))}
           </ul>
